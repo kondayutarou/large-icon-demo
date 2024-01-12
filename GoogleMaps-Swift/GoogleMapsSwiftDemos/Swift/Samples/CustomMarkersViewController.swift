@@ -19,8 +19,9 @@ class CustomMarkersViewController: UIViewController {
   private var markerCount = 0
 
   private lazy var mapView: GMSMapView = {
-    let camera = GMSCameraPosition(latitude: -37.81969, longitude: 144.966085, zoom: 4)
-    return GMSMapView(frame: .zero, camera: camera)
+    let options = GMSMapViewOptions()
+    options.camera = GMSCameraPosition(latitude: -37.81969, longitude: 144.966085, zoom: 4)
+    return GMSMapView(options: options)
   }()
 
   override func loadView() {
