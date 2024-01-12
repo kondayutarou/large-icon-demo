@@ -40,14 +40,16 @@ class CustomMarkersViewController: UIViewController {
     let sydneyMarker = GMSMarker(
       position: CLLocationCoordinate2D(latitude: -33.8683, longitude: 151.2086))
     sydneyMarker.title = "Sydney!"
-    sydneyMarker.icon = UIImage(named: "glow-marker")
+    // This is rendered
+    sydneyMarker.icon = UIImage(named: "glow-marker")?.resize(size: CGSize(width: 300, height: 300))
     sydneyMarker.map = mapView
 
     // Add a custom 'arrow' marker pointing to Melbourne.
     let melbourneMarker = GMSMarker(
       position: CLLocationCoordinate2D(latitude: -37.81969, longitude: 144.966085))
     melbourneMarker.title = "Melbourne!"
-    melbourneMarker.icon = UIImage(named: "arrow")
+    // This is not rendered
+    melbourneMarker.icon = UIImage(named: "arrow")?.resize(size: CGSize(width: 350, height: 350))
     melbourneMarker.map = mapView
   }
 
@@ -96,4 +98,22 @@ extension GMSCoordinateBounds {
     return CLLocationCoordinate2D(
       latitude: randomLatitude, longitude: randomLongitude.remainder(dividingBy: 360))
   }
+}
+
+// credit: https://qiita.com/ruwatana/items/473c1fb6fc889215fca3
+extension UIImage {
+    func resize(size _size: CGSize) -> UIImage? {
+        let widthRatio = _size.width / size.width
+        let heightRatio = _size.height / size.height
+        let ratio = widthRatio < heightRatio ? widthRatio : heightRatio
+
+        let resizedSize = CGSize(width: size.width * ratio, height: size.height * ratio)
+
+        UIGraphicsBeginImageContextWithOptions(resizedSize, false, 0.0) // 変更
+        draw(in: CGRect(origin: .zero, size: resizedSize))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return resizedImage
+    }
 }
